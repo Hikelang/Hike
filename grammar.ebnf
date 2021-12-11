@@ -1,0 +1,50 @@
+Program = "module" <id> ";" ImportStmt* Extern* TopStmt* .
+ImportStmt = "import" <str> ";" .
+Extern = "extern" <id> "(" (ScalarDef ("," ScalarDef)*)? ")" Type? ";" .
+ScalarDef = (<id> Type) | (<id> "." "." "." Type) .
+Type = <type> | Name | ArrayType | TupleType | Pointer .
+Name = (<id> ":" ":" Name) | <id> .
+ArrayType = "[" Type "]" .
+TupleType = "(" (Type ("," Type)*)? ")" .
+Pointer = "*" Type .
+TopStmt = GlobalVarDefStmt | ExportFunc | FuncDefStmt | ClassDefStmt .
+GlobalVarDefStmt = "global" <id> Type "=" Expr .
+Expr = Assignment | OrEqual | AndEqual | PlusEqual | MinusEqual | StarEqual | SlashEqual .
+Assignment = Equality ("=" Equality)? .
+Equality = Comparison ((("!" "=") | ("=" "=")) Equality)? .
+Comparison = LogicalExpr (((">" "=") | ">" | ("<" "=") | "<") Comparison)? .
+LogicalExpr = Addition ((("&" "&") | ("|" "|")) LogicalExpr)? .
+Addition = Multiplication (("-" | "+") Addition)? .
+Multiplication = Unary (("/" | "*") Multiplication)? .
+Unary = (("!" | "-" | "++" | "--" | "*" | "&") Unary) | Primary .
+Primary = <str> | <num> | <hex> | <bin> | <oct> | <bool> | Dictionary | InitializeClass | CoroutineCall | AnonymousFuncCall | FuncCall | TypeConversion | VarName | Index | ArrayLiteral | ("(" Expr ")") .
+Dictionary = "dict" "[" Type ":" Type "]" "{" (KeyAndValue ("," KeyAndValue)*)? "}" .
+KeyAndValue = Expr ":" Expr .
+InitializeClass = "new" FuncCall .
+FuncCall = Name "(" (Expr ("," Expr)*)? ")" .
+CoroutineCall = ("co" FuncCall) | ("co" AnonymousFuncCall) .
+AnonymousFuncCall = "(" (ScalarDef ("," ScalarDef)*)? ")" Type? "{" Stmt* "}" "(" (Expr ("," Expr)*)? ")" .
+Stmt = IfElseStmt | WhileStmt | (ReturnStmt ";") | (VarDefStmt ";") | (TypedVarDefStmt ";") | (Expr ";") .
+IfElseStmt = IfStmt ElseIfStmt*? ElseStmt? .
+IfStmt = "if" Expr "{" Stmt* "}" .
+ElseIfStmt = "else" "if" Expr "{" Stmt* "}" .
+ElseStmt = "else" "{" Stmt* "}" .
+WhileStmt = "while" Expr "{" Stmt* "}" .
+ReturnStmt = "return" Expr .
+VarDefStmt = "let" <id> "=" Expr .
+TypedVarDefStmt = "let" <id> Type ("=" Expr)? .
+TypeConversion = Type "(" Expr ")" .
+VarName = (<id> "." Name) | <id> .
+Index = VarName "[" Expr "]" .
+ArrayLiteral = "{" (Expr ("," Expr)*)? "}" .
+OrEqual = VarName "|" "|" "=" Expr .
+AndEqual = VarName "&" "&" "=" Expr .
+PlusEqual = VarName "+" "=" Expr .
+MinusEqual = VarName "-" "=" Expr .
+StarEqual = VarName "*" "=" Expr .
+SlashEqual = VarName "/" "=" Expr .
+ExportFunc = "export" FuncDefStmt .
+FuncDefStmt = <id> "=" ("<" (<id> ("," <id>)*)? ">")? "(" (ScalarDef ("," ScalarDef)*)? ")" Type? "{" Stmt* "}" .
+ClassDefStmt = "class" <id> "{" (ClassScalarDef ";")* ClassFuncDefStmt* "}" .
+ClassScalarDef = ("pub" ScalarDef) | ScalarDef .
+ClassFuncDefStmt = FuncDefStmt | ("pub" FuncDefStmt) .

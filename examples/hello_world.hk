@@ -1,0 +1,8 @@
+// Module that prints out hello world
+module main;
+
+// Some main function
+// @brief Some cool brief
+main = () {
+
+}

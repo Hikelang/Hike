@@ -1,0 +1,86 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"name": "hike",
+	"patterns": [
+		{
+			"include": "#keywords"
+		},
+		{
+			"include": "#strings"
+		},
+		{
+			"include": "#numeric"
+		},
+		{
+			"include": "#function_exec"
+		},
+		{
+			"include": "#types"
+		},
+		{
+			"include": "#comment"
+		}
+	],
+	"repository": {
+		"comment": {
+			"patterns": [
+				{
+					"name": "comment.line",
+					"match": "//.*"
+				}
+			]
+		},
+		"keywords": {
+			"patterns": [
+				{
+					"name": "keyword.control.hk",
+					"match": "\\b(else|assert|this|class|pub|export|let|if|while|for|return|co|module|import)\\b"
+				}
+			]
+		},
+		"operator": {
+			"patterns": [
+				{
+					"name": "keyword.operator",
+					"match": "[+-/*.%=&!*]"
+				}
+			]
+		},
+		"function_exec": {
+			"patterns": [
+				{
+					"name": "entity.name.function",
+					"match": "\\b\\w+(?=\\()"
+				}
+			]
+		},
+		"types": {
+			"patterns": [
+				{
+					"name": "storage.type",
+					"match": "\\b(int|byte|str|bool|int8|int16|int32|int64|float32|float64|float|complex64|complex128|complex)\\b"
+				}
+			]
+		},
+		"numeric": {
+			"patterns": [
+				{
+					"name": "constant.numeric",
+					"match": "\\b(\\d+|false|true)\\b"
+				}
+			]
+		},
+		"strings": {
+			"name": "string.quoted.double.hk",
+			"begin": "\"",
+			"end": "\"",
+			"patterns": [
+				{
+					"name": "constant.character.escape.hk",
+					"match": "\\\\."
+				}
+			]
+		}
+	},
+	"scopeName": "source.hk"
+}
