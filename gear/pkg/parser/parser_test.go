@@ -282,7 +282,10 @@ func TestNamespace(t *testing.T) {
 		`a.a().a()`,
 		`a().a().a()`,
 		`a().a.a()`,
-	}
+    `"hello world".len()`,
+    `"hello world".length`,
+    `12.34.precision()`,
+  }
 
 	for _, code := range codes {
 		parserTest(t, `module main; main=(){`+code+`;}`)

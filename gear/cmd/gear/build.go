@@ -59,8 +59,8 @@ func (b *BuildCmd) Run(globals *Globals) error {
 	if r.Module != "main" {
 		e := logging.NewGlobalError(
 			b.Input,
-			fmt.Sprintf("Found `%s` module in compilation target.", r.Module),
-			"You must change module name into `main`. Every file you are building, must be at the `main` module.",
+			fmt.Sprintf("found `%s` module in compilation target.", r.Module),
+			"you must change module name into `main`.",
 		)
 		e.Show()
 	} else {
@@ -72,6 +72,10 @@ func (b *BuildCmd) Run(globals *Globals) error {
 	for _, stmt := range r.TopStmts {
 		if stmt.FuncDefStmt != nil {
 			if stmt.FuncDefStmt.FuncName == "main" {
+				if stmt.FuncDefStmt.FuncReturnType.Type != "int" {
+					e := logging.NewCodeError(b.Input, &code, stmt.FuncDefStmt.FuncReturnType.Pos, "`main` func. must return `int` type.", "try to change `main () ...` into `main () int`")
+					e.Show()
+				}
 				mainFunctionExists = true
 			}
 		}
@@ -80,8 +84,8 @@ func (b *BuildCmd) Run(globals *Globals) error {
 	if !mainFunctionExists {
 		e := logging.NewGlobalError(
 			b.Input,
-			"Function `main` not found in compilation target.",
-			"You must add `main` function into this file. Every file you are building, must contain `main` function.",
+			"`main () int` not found in compilation target.",
+			"you must add `main () int` func. into this file.",
 		)
 		e.Show()
 	} else {

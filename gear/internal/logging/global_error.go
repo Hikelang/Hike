@@ -45,9 +45,9 @@ func NewGlobalError(filename string, message string, note string) GlobalError {
 
 func (g *GlobalError) Show() {
     r := color.New(color.Bold, color.FgRed)
-    r.Printf("\n# Found a global error [not related to a specific part of the code] \n ⮱ %s: %s\n", g.Filename, g.Message)
+    r.Printf("# %s: %s\n", g.Filename, g.Message)
     y := color.New(color.Bold, color.FgYellow)
-    y.Printf(" > Note: %s\n", g.Note)
+    y.Printf("#> note: %s\n", g.Note)
 }
 
 // Note: please use this function if message and note length is low

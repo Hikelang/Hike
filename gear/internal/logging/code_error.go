@@ -49,10 +49,10 @@ func NewCodeError(filename string, code *string, pos lexer.Position, message str
 
 func (c *CodeError) Show() {
 	r := color.New(color.Bold, color.FgRed)
-	r.Printf("\n# Found error in %s: %d:%d: %s\n", c.Filename, c.Pos.Line, c.Pos.Column, c.Message)
+	r.Printf("# %s: %d:%d: %s\n", c.Filename, c.Pos.Line, c.Pos.Column, c.Message)
 
 	if c.Note != "" {
 		y := color.New(color.Bold, color.FgYellow)
-		y.Printf(" > Note: %s\n", c.Note)
+		y.Printf("#> note: %s\n", c.Note)
 	}
 }
