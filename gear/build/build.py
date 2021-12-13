@@ -1,9 +1,13 @@
 from threading import Thread
 import os
+import time
 import shutil
 import zipfile
     
 version = "alpha_1.0.0"
+
+started_thread_counter = 0
+finished_thread_counter = 0
 
 def zipdir(path, ziph):
     # ziph is zipfile handle
@@ -39,15 +43,24 @@ print("⚙️  hike build started")
 threads = []
 
 def test(package):
+    global started_thread_counter, finished_thread_counter
+    started_thread_counter += 1
+    now = time.time()
     os.system(f"go test {package}")
-    print(f"😃 finished testing thread [package={package}]")
+    finished_thread_counter += 1
+    print(f"[T] finish {package} in {time.time() - now} s")
 
 def compile(package, platform):
+    global started_thread_counter, finished_thread_counter
+    started_thread_counter += 1
+    now = time.time()
     os.system(f"env GOOS={platform[0]} GOARCH={platform[1]} go build -o .build/{platform[0]}.{platform[1]}/{package.split('/')[-1]}{platform[2]} {package}")
+    finished_thread_counter += 1
+    print(f"[C] finish {package.split('/')[-1]} [OS]: {platform[0]} [ARCH]: {platform[1]} in {time.time() - now} s")
 
 for package in packages_to_test:
     Thread(target=test, args=(package, )).start()
-    print(f"test {package}")
+    print(f"[T] {package}")
 
 try:
     os.mkdir(".build")
@@ -63,10 +76,15 @@ for directory in os.listdir("cmd"):
             pass
         thread = Thread(target = compile, args=(package, platform))
         thread.start()
-        print(f"compile {directory}, os: {platform[0]}, arch: {platform[1]}")
+        print(f"[C] started {directory} [OS]: {platform[0]} [ARCH]: {platform[1]}")
+
+while started_thread_counter != finished_thread_counter:
+    pass
+
+print(f"[I] finished building")
 
 for platform in platforms:
-    print(f'compress .build/{platform[0]}.{platform[1]} ==> .build/gear_{version}v_{platform[0]}.{platform[1]}.zip')
+    print(f'[C] .build/{platform[0]}.{platform[1]} ==> .build/gear_{version}v_{platform[0]}.{platform[1]}.zip')
     zipf = zipfile.ZipFile(f'.build/gear_{version}v_{platform[0]}.{platform[1]}.zip', 'w')
     zipf.write(f'.build/{platform[0]}.{platform[1]}')
     zipf.close()
