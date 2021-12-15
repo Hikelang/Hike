@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2021 Adi Salimgereev
+ *   Copyright (c) 2021 Hike authors
  *   Copyright (c) 2016 Alec Thomas (https://github.com/alecthomas/repr/blob/master/repr.go)
  *   All rights reserved.
 

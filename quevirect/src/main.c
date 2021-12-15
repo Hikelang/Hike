@@ -1,5 +1,5 @@
 /*
- *   Copyright (c) 2021 Adi Salimgereev
+ *   Copyright (c) 2021 Hike authors
  *   All rights reserved.
 
  *   Permission is hereby granted, free of charge, to any person obtaining a copy
