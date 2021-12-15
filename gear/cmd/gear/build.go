@@ -46,21 +46,15 @@ func (b *BuildCmd) Run(globals *Globals) error {
 		os.Exit(1)
 	}
 	code := string(bytes)
-	s := logging.NewSuccess(
-		fmt.Sprintf("File read in %d microseconds",
-			time.Since(now).Microseconds()))
-	s.Print()
+	logging.PrintSuccess(fmt.Sprintf(pack["info.fileread"], time.Since(now).Microseconds()))
 	now = time.Now()
 	r := parser.GetParserResult(b.Input, &code)
-	s = logging.NewSuccess(
-		fmt.Sprintf("File parsed in %d microseconds",
-			time.Since(now).Microseconds()))
-	s.Print()
+	logging.PrintSuccess(fmt.Sprintf(pack["info.fileparsed"], time.Since(now).Microseconds()))
 	if r.Module != "main" {
 		e := logging.NewGlobalError(
 			b.Input,
-			fmt.Sprintf("found `%s` module in compilation target.", r.Module),
-			"you must change module name into `main`.",
+			pack["error.nomain"],
+			fmt.Sprintf(pack["note.nomain"], r.Module),
 		)
 		e.Show()
 	} else {
@@ -84,8 +78,8 @@ func (b *BuildCmd) Run(globals *Globals) error {
 	if !mainFunctionExists {
 		e := logging.NewGlobalError(
 			b.Input,
-			"`main () int` not found in compilation target.",
-			"you must add `main () int` func. into this file.",
+			pack["error.nomainfunc"],
+			pack["note.nomainfunc"],
 		)
 		e.Show()
 	} else {

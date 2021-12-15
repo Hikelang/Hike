@@ -26,8 +26,20 @@ package main
 import (
 	"fmt"
 
+	"gear/pkg/languagepack"
+
 	"github.com/alecthomas/kong"
 )
+
+var pack = GetPack()
+
+func GetPack() map[string]string {
+	pack, err := languagepack.GetCurrentPack()
+	if err != nil {
+		panic(err)
+	}
+	return pack
+}
 
 type Globals struct {
 	Version VersionFlag `name:"version" help:"Print version information and quit"`
