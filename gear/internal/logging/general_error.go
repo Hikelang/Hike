@@ -24,35 +24,35 @@
 package logging
 
 import (
-    "github.com/fatih/color"
+	"github.com/fatih/color"
 )
 
 // Error not related to a syntax error, execution error,
 // etc. It means that, the error is not related to the file,
 // but, for example, to incorrectly passed arguments.
 type GeneralError struct {
-    Message string
-    Note    string
+	Message string
+	Note    string
 }
 
 func NewGeneralError(message string, note string) GeneralError {
-    return GeneralError{
-        Message: message,
-        Note:    note,
-    }
+	return GeneralError{
+		Message: message,
+		Note:    note,
+	}
 }
 
 func (g *GeneralError) Show() {
-    r := color.New(color.Bold, color.FgRed)
-    r.Printf("# %s\n", g.Message)
-    if g.Note != "" {
-        y := color.New(color.Bold, color.FgYellow)
-        y.Printf(" > Note: %s\n", g.Note)
-    }
+	r := color.New(color.Bold, color.FgRed)
+	r.Printf("# %s\n", g.Message)
+	if g.Note != "" {
+		y := color.New(color.Bold, color.FgYellow)
+		y.Printf(" # 💡: %s\n", g.Note)
+	}
 }
 
 // Note: please use this function if message length is low
 func PrintGeneralError(message string, note string) {
-    g := NewGeneralError(message, note)
-    g.Show()
+	g := NewGeneralError(message, note)
+	g.Show()
 }

@@ -53,6 +53,6 @@ func (c *CodeError) Show() {
 
 	if c.Note != "" {
 		y := color.New(color.Bold, color.FgYellow)
-		y.Printf("#> note: %s\n", c.Note)
+		y.Printf("# 💡: %s\n", c.Note)
 	}
 }

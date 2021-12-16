@@ -24,34 +24,34 @@
 package logging
 
 import (
-    "github.com/fatih/color"
+	"github.com/fatih/color"
 )
 
 // Error that is related to a file, but not specific line of code
 // for example: lack of `main` module or `main` function.
 type GlobalError struct {
-    Filename string
-    Message  string
-    Note     string
+	Filename string
+	Message  string
+	Note     string
 }
 
 func NewGlobalError(filename string, message string, note string) GlobalError {
-    return GlobalError{
-        Filename: filename,
-        Message:  message,
-        Note:     note,
-    }
+	return GlobalError{
+		Filename: filename,
+		Message:  message,
+		Note:     note,
+	}
 }
 
 func (g *GlobalError) Show() {
-    r := color.New(color.Bold, color.FgRed)
-    r.Printf("# %s: %s\n", g.Filename, g.Message)
-    y := color.New(color.Bold, color.FgYellow)
-    y.Printf("#> note: %s\n", g.Note)
+	r := color.New(color.Bold, color.FgRed)
+	r.Printf("# %s: %s\n", g.Filename, g.Message)
+	y := color.New(color.Bold, color.FgYellow)
+	y.Printf("# 💡: %s\n", g.Note)
 }
 
 // Note: please use this function if message and note length is low
 func PrintGlobalError(filename string, message string, note string) {
-    g := NewGlobalError(filename, message, note)
-    g.Show()
+	g := NewGlobalError(filename, message, note)
+	g.Show()
 }

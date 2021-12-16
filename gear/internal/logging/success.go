@@ -24,22 +24,22 @@ import "github.com/fatih/color"
 
 // Success message, for example: file successfully parsed.
 type Success struct {
-    Message string
+	Message string
 }
 
 func NewSuccess(message string) Success {
-    return Success{
-        Message: message,
-    }
+	return Success{
+		Message: message,
+	}
 }
 
 func (s *Success) Print() {
-    g := color.New(color.Bold, color.FgGreen)
-    g.Printf("> %s\n", s.Message)
+	g := color.New(color.Bold, color.FgGreen)
+	g.Printf("> %s\n", s.Message)
 }
 
 // Note: please use this function, only if message length is low
 func PrintSuccess(message string) {
-    s := NewSuccess(message)
-    s.Print()
+	s := NewSuccess(message)
+	s.Print()
 }
