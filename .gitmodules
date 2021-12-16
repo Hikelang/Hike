@@ -1,0 +1,3 @@
+[submodule "gear"]
+	path = gear
+	url = git@github.com:hikelang/gear

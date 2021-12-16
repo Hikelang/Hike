@@ -1,1 +1,0 @@
-# Parsing tool for Docstrings in Hike. Check out [this](https://github.com/AdiSalimgereev/Hidge/tree/main/pkg/docgen).
